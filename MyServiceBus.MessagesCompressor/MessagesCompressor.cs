@@ -30,9 +30,13 @@ namespace MyServiceBus.MessagesCompressor
         {
             var zipResultStream = new MemoryStream();
 
-            using var zipWriter = WriterFactory.Open(zipResultStream, ArchiveType.Zip, new WriterOptions(CompressionType.Deflate));
+            var o = new WriterOptions(CompressionType.Deflate);
+
+            var zipWriter = WriterFactory.Open(zipResultStream, ArchiveType.Zip, o);
 
             zipWriter.Write(ZipEntryName, sourceStream);
+            
+            zipWriter.Dispose();
 
             return zipResultStream.ToArray();
         }
